@@ -1,17 +1,9 @@
+import { getPosts } from "@/lib/utils";
 import { cacheLife } from "next/cache";
-import React, { Suspense } from "react";
+import { Suspense } from "react";
 
 export const generateStaticParams = async () => {
-  const date = new Date();
-  console.log(date.toISOString());
-  return [
-    { slug: "1" },
-    { slug: "2" },
-    { slug: "3" },
-    { slug: "4" },
-    { slug: "5" },
-    { slug: "6" },
-  ];
+  return getPosts().map((post) => ({ slug: post.slug }));
 };
 const page = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const { slug } = await params;
