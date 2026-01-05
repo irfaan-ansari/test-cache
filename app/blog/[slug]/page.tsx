@@ -1,5 +1,5 @@
-import { getPosts } from "@/lib/utils";
-import { cacheLife } from "next/cache";
+import { formatDate, getPost, getPosts } from "@/lib/utils";
+import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
 export const generateStaticParams = async () => {
@@ -7,12 +7,16 @@ export const generateStaticParams = async () => {
 };
 const page = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const { slug } = await params;
+
+  const post = getPost(slug);
+  if (!post) notFound();
   return (
-    <div>
-      <h1 className="text-4xl">single blog page</h1>
-      <h2 className="text-2xl">{slug}</h2>
+    <div className="max-w-xl mx-auto py-10">
+      <h1 className="text-4xl">{post?.title}</h1>
+      <h2 className="text-2xl">{post?.slug}</h2>
+
       <Suspense fallback={"Loading..."}>
-        <Publish />
+        <Publish date={post?.publishedAt ?? ""} />
       </Suspense>
     </div>
   );
@@ -20,8 +24,8 @@ const page = async ({ params }: { params: Promise<{ slug: string }> }) => {
 
 export default page;
 
-const Publish = async () => {
+const Publish = async ({ date }: { date: string }) => {
   "use cache";
-  cacheLife("seconds");
-  return <div>{new Date().toString()}</div>;
+  //   cacheLife("seconds");
+  return <div>{formatDate(date)}</div>;
 };

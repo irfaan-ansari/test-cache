@@ -33,3 +33,10 @@ export const getPosts = () => {
     return dateB - dateA;
   });
 };
+
+export const getPost = (slug: string) => {
+  return data.find((p) => p.slug === slug);
+};
+export const formatDate = (date: string) => {
+  return new Date(date).toDateString();
+};
