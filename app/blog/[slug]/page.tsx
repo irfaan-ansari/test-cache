@@ -1,7 +1,7 @@
 import { cacheLife } from "next/cache";
 import React, { Suspense } from "react";
 
-export const generateStaticParams = () => {
+export const generateStaticParams = async () => {
   const date = new Date();
   console.log(date.toISOString());
   return [
@@ -13,10 +13,12 @@ export const generateStaticParams = () => {
     { slug: "6" },
   ];
 };
-const page = () => {
+const page = async ({ params }: { params: Promise<{ slug: string }> }) => {
+  const { slug } = await params;
   return (
     <div>
-      single blog page
+      <h1 className="text-4xl">single blog page</h1>
+      <h2 className="text-2xl">{slug}</h2>
       <Suspense fallback={"Loading..."}>
         <Publish />
       </Suspense>
