@@ -9,11 +9,19 @@ const data = [
 ];
 const Header = () => {
   const path = usePathname();
+
+  const isActive = (slug: string) => {
+    return path === slug;
+  };
   return (
     <div className="max-w-xl mx-auto">
       <div className="rounded-md bg-neutral-800 border-neutral-900">
         {data.map((i) => (
-          <Link className="py-2 px-3" key={i.slug} href={i.slug}>
+          <Link
+            className={`py-2 px-3 ${isActive(i.slug) ? "bg-red-900" : ""}`}
+            key={i.slug}
+            href={i.slug}
+          >
             {i.title}
           </Link>
         ))}
