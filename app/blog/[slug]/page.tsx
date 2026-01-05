@@ -2,6 +2,8 @@ import { cacheLife } from "next/cache";
 import React, { Suspense } from "react";
 
 export const generateStaticParams = () => {
+  const date = new Date();
+  console.log(date.toISOString());
   return [
     { slug: "1" },
     { slug: "2" },
